@@ -1,0 +1,36 @@
+#include <iostream>
+using namespace std;
+
+// Function to count zeros in x
+int countZero(int x) {
+    int count = 0;
+    for (int i = 5; x / i >= 1; i *= 5)
+        count += x / i;
+    return count;
+}
+
+int main() {
+    int n;
+    cout << "Enter number of zeros: ";
+    cin >> n;
+
+    int low = 0, high = 5 * n;
+    int f = -1;
+
+    while (low <= high) {
+        int mid = (low + high) / 2;
+        int zeros = countZero(mid);
+
+        if (zeros >= n) {
+            f = mid;
+            high = mid - 1;
+        } else {
+            low = mid + 1;
+        }
+    }
+
+    cout << "Smallest number whose factorial has " << n << " trailing zeros is: \n" << f << endl;
+    cout << "\n";
+
+    return 0;
+}
