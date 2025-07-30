@@ -1,3 +1,9 @@
+//Implement a problem of no of zeros
+//Statement:Given array of 1's and 0' which has all is followed by 0's.Find no of 0's and give count of no of 0's in given array.
+//Input:Enter size of array: 7
+    //Enter elements: 1 1 1 0 0 0 0
+//Output:Count of 0's:4
+
 #include<iostream>
 using namespace std;
 
