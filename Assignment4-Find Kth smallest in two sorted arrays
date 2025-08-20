@@ -1,0 +1,70 @@
+//Find Kth smallest in two sorted arrays
+//Description:Return the k-th smallest element across two sorted arrays.
+//Input&output: Enter size of first array: 3
+               //Enter size of second array: 2
+               //Enter elements of first sorted array: 1 4 6
+               //Enter elements of second sorted array: 2 5
+               //Enter the value of k (position): 4
+               //The 4-th smallest element is: 5
+#include <iostream>
+using namespace std;
+
+int main() {
+    int size1, size2, k;
+
+    // Input sizes
+    cout << "Enter size of first array: ";
+    cin >> size1;
+
+    cout << "Enter size of second array: ";
+    cin >> size2;
+
+    int nums1[100], nums2[100];  // Arrays to hold input values
+    int merge[200];              // Merged array
+
+    // Input first array (sorted)
+    cout << "Enter elements of first sorted array: ";
+    for (int i = 0; i < size1; i++) {
+        cin >> nums1[i];
+    }
+
+    // Input second array (sorted)
+    cout << "Enter elements of second sorted array: ";
+    for (int i = 0; i < size2; i++) {
+        cin >> nums2[i];
+    }
+
+    // Input k
+    cout << "Enter the value of k (position): ";
+    cin >> k;
+
+    int i = 0, j = 0, m = 0;
+
+    // Merge process
+    while (i < size1 && j < size2) {
+        if (nums1[i] < nums2[j]) {
+            merge[m++] = nums1[i++];
+        } else {
+            merge[m++] = nums2[j++];
+        }
+    }
+
+    // Copy remaining elements
+    while (i < size1) {
+        merge[m++] = nums1[i++];
+    }
+
+    while (j < size2) {
+        merge[m++] = nums2[j++];
+    }
+
+    // Output the k-th element (1-based index)
+    if (k > 0 && k <= (size1 + size2)) {
+        cout << "The " << k << "-th smallest element is: " << merge[k - 1] << endl;
+    } else {
+        cout << "Invalid k! Must be between 1 and " << (size1 + size2) << endl;
+    }
+
+    return 0;
+}
+
