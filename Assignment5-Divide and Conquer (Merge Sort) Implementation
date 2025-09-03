@@ -1,0 +1,70 @@
+//Develop and implement a solution for the given problem using Divide and Conquer approach.The project should be coded on a chosen programming platform and all code must be updated and maintained in a GitHub repository for version control and collaboration.
+#include<iostream>
+using namespace std;
+
+int main() {
+    int n;
+    cout << "Enter number of elements: ";
+    cin >> n;
+
+    int arr[50];
+    cout << "Enter " << n << " elements:\n";
+    for(int i = 0; i < n; i++)
+        cin >> arr[i];
+
+    // Merge Sort inside main
+    // Divide and Conquer approach
+    for(int size = 1; size < n; size = 2 * size) {
+        for(int left = 0; left < n - size; left += 2 * size) {
+            int mid = left + size - 1;
+            int right = min(left + 2 * size - 1, n - 1);
+
+            // Merge step
+            int n1 = mid - left + 1;
+            int n2 = right - mid;
+
+            int L[50], R[50];
+            for(int i = 0; i < n1; i++) L[i] = arr[left + i];
+            for(int j = 0; j < n2; j++) R[j] = arr[mid + 1 + j];
+
+            int i = 0, j = 0, k = left;
+            while(i < n1 && j < n2) {
+                if(L[i] <= R[j]) {
+                    arr[k] = L[i];
+                    i++;
+                } else {
+                    arr[k] = R[j];
+                    j++;
+                }
+                k++;
+            }
+            while(i < n1) {
+                arr[k] = L[i];
+                i++; k++;
+            }
+            while(j < n2) {
+                arr[k] = R[j];
+                j++; k++;
+            }
+        }
+    }
+
+    cout << "Sorted array: ";
+    for(int i = 0; i < n; i++)
+        cout << arr[i] << " ";
+    cout << endl;
+
+    return 0;
+}
+
+/*
+--------------------
+Sample Input:
+Enter number of elements: 5
+Enter 5 elements:
+38 27 43 3 9
+
+Sample Output:
+Sorted array: 3 9 27 38 43
+--------------------
+*/
