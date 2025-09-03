@@ -1,0 +1,68 @@
+//A student wants to visit shops. There are N shops, each with a start and end time. The student has K friends, so there are K persons who can visit shops at the same time. Each person can visit non-overlapping shops. Find the maximum number of shops visited.
+#include<iostream>
+using namespace std;
+
+int main() {
+    int N, K;
+    cout << "Enter number of shops (N): ";
+    cin >> N;
+    cout << "Enter number of persons (K): ";
+    cin >> K;
+
+    int start[50], end[50];
+    cout << "Enter starting times of shops:\n";
+    for (int i = 0; i < N; i++) cin >> start[i];
+    cout << "Enter ending times of shops:\n";
+    for (int i = 0; i < N; i++) cin >> end[i];
+
+    // Simple bubble sort by end time
+    for (int i = 0; i < N - 1; i++) {
+        for (int j = 0; j < N - i - 1; j++) {
+            if (end[j] > end[j + 1]) {
+                // swap end times
+                int temp = end[j];
+                end[j] = end[j + 1];
+                end[j + 1] = temp;
+                // swap corresponding start times
+                temp = start[j];
+                start[j] = start[j + 1];
+                start[j + 1] = temp;
+            }
+        }
+    }
+
+    int personEnd[10]; // when each person is free
+    for (int i = 0; i < K; i++) personEnd[i] = 0;
+
+    int count = 0;
+
+    // Assign shops
+    for (int i = 0; i < N; i++) {
+        for (int p = 0; p < K; p++) {
+            if (personEnd[p] <= start[i]) {
+                personEnd[p] = end[i]; // person p visits this shop
+                count++;
+                break; // go to next shop
+            }
+        }
+    }
+
+    cout << "Maximum shops visited: " << count << endl;
+
+    return 0;
+}
+
+/*
+--------------------
+Sample Input:
+Enter number of shops (N): 5
+Enter number of persons (K): 2
+Enter starting times of shops:
+1 3 0 5 8
+Enter ending times of shops:
+2 4 6 7 9
+
+Sample Output:
+Maximum shops visited: 4
+--------------------
+*/
