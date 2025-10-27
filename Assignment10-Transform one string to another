@@ -1,0 +1,51 @@
+//Implement Check if it is possible to transform one string to another. Statement: - Given two strings s1 and s2 (all letters in uppercase). Check if it is possible to convert s1 to s2 by performing following operations. 1. Make some lowercase letters upper. 2. Delete all the lowercase letters 
+#include <iostream>
+using namespace std;
+
+int main() {
+    string s1, s2;
+    cout << "Enter first string (s1): ";
+    cin >> s1;
+    cout << "Enter second string (s2): ";
+    cin >> s2;
+
+    int n = s1.length();
+    int m = s2.length();
+
+    bool dp[101][101] = {false}; // assuming strings ≤ 100 chars
+    dp[0][0] = true; // empty s1 can make empty s2
+
+    // Fill DP table
+    for (int i = 1; i <= n; i++) {
+        // We can delete lowercase letters even if s2 is empty
+        if (islower(s1[i - 1]))
+            dp[i][0] = dp[i - 1][0];
+        else
+            dp[i][0] = false;
+    }
+
+    for (int i = 1; i <= n; i++) {
+        for (int j = 1; j <= m; j++) {
+            if (toupper(s1[i - 1]) == s2[j - 1]) {
+                // either match them (convert if lowercase) or delete if lowercase
+                dp[i][j] = dp[i - 1][j - 1] || (islower(s1[i - 1]) ? dp[i - 1][j] : false);
+            } else {
+                // if current char in s1 is lowercase, we can delete it
+                if (islower(s1[i - 1]))
+                    dp[i][j] = dp[i - 1][j];
+                else
+                    dp[i][j] = false;
+            }
+        }
+    }
+
+    if (dp[n][m])
+        cout << "Yes, it is possible to transform s1 into s2." << endl;
+    else
+        cout << "No, it is not possible to transform s1 into s2." << endl;
+
+    return 0;
+}
+//Input-->Enter first string (s1): daBcd
+         //Enter second string (s2): ABC
+//Output-->Yes, it is possible to transform s1 into s2.
