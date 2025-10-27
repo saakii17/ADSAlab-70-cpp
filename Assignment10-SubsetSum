@@ -1,0 +1,51 @@
+//Implement Subset Sum Problem.  Statement:-Given a set of non negative integers and a value sum, the task is to check if there is a subset of the given set whose sum is equal to the given sum. 
+#include <iostream>
+using namespace std;
+
+int main() {
+    int n, sum;
+    cout << "Enter number of elements: ";
+    cin >> n;
+
+    int arr[100];
+    cout << "Enter elements: ";
+    for (int i = 0; i < n; i++) {
+        cin >> arr[i];
+    }
+
+    cout << "Enter target sum: ";
+    cin >> sum;
+
+    bool dp[101][1001]; // assuming n <= 100 and sum <= 1000
+
+    // Initialize DP table
+    for (int i = 0; i <= n; i++) {
+        for (int j = 0; j <= sum; j++) {
+            if (j == 0)
+                dp[i][j] = true;  // sum 0 possible with any i (by choosing none)
+            else if (i == 0)
+                dp[i][j] = false; // with 0 elements, non-zero sum not possible
+        }
+    }
+
+    // Fill the DP table
+    for (int i = 1; i <= n; i++) {
+        for (int j = 1; j <= sum; j++) {
+            if (arr[i - 1] <= j)
+                dp[i][j] = dp[i - 1][j] || dp[i - 1][j - arr[i - 1]];
+            else
+                dp[i][j] = dp[i - 1][j];
+        }
+    }
+
+    if (dp[n][sum])
+        cout << "Yes, subset with given sum exists!" << endl;
+    else
+        cout << "No, subset with given sum does not exist." << endl;
+
+    return 0;
+}
+//Input-->Enter number of elements: 6
+         //Enter elements: 3 34 4 12 5 2
+         //Enter target sum: 9
+//Output-->Yes, subset with given sum exists!
