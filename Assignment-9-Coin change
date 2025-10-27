@@ -1,0 +1,37 @@
+//Implement Coin Change problem.  Statement: - Given an integer array of coins [ ] of size N representing different types of currency and an integer sum, The task is to find the number of ways to make sum by using different combinations from coins[]. 
+#include <iostream>
+using namespace std;
+
+int main() {
+    int N, sum;
+    cout << "Enter number of coins: ";
+    cin >> N;
+
+    int coins[100]; // assuming max 100 coins for simplicity
+    cout << "Enter coin denominations: ";
+    for (int i = 0; i < N; i++) {
+        cin >> coins[i];
+    }
+
+    cout << "Enter total sum: ";
+    cin >> sum;
+
+    long long dp[1001] = {0}; // assuming sum won't exceed 1000
+    dp[0] = 1; // one way to make sum 0 (no coins)
+
+    // main DP logic
+    for (int i = 0; i < N; i++) {
+        int coin = coins[i];
+        for (int j = coin; j <= sum; j++) {
+            dp[j] += dp[j - coin];
+        }
+    }
+
+    cout << "Number of ways to make the sum = " << dp[sum] << endl;
+
+    return 0;
+}
+//Input-->Enter number of coins: 3
+          //Enter coin denominations: 1 2 3
+          //Enter total sum: 4
+//Output-->Number of ways to make the sum = 4
